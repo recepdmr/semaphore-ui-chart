@@ -1,0 +1,129 @@
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: semaphoreui/semaphore
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v2.10.22"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+ingress:
+  enabled: false
+  className: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+environments:
+  SEMAPHORE_DB_USER: semaphoreui_superuser
+  SEMAPHORE_DB_PASS: user1234
+  SEMAPHORE_DB_HOST: postgres # for postgres, change to: postgres
+  SEMAPHORE_DB_PORT: 5432 # change to 5432 for postgres
+  SEMAPHORE_DB_DIALECT: postgres # for postgres, change to: postgres
+  SEMAPHORE_DB: semaphoreui
+  SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+  SEMAPHORE_ADMIN_PASSWORD: changeme
+  SEMAPHORE_ADMIN_NAME: admin
+  SEMAPHORE_ADMIN_EMAIL: admin@localhost
+  SEMAPHORE_ADMIN: admin
+  SEMAPHORE_ACCESS_KEY_ENCRYPTION: gs72mPntFATGJs9qK0pQ0rKtfidlexiMjYCH9gWKhTU=
+  SEMAPHORE_LDAP_ACTIVATED: "no" # if you wish to use ldap, set to: 'yes'
+  SEMAPHORE_OIDC_PROVIDERS_KEYCLOAK_DISPLAY_NAME: "Sign in with keycloak"
+  SEMAPHORE_OIDC_PROVIDERS_KEYCLOAK_PROVIDER_URL: "Sign in with keycloak"
+  SEMAPHORE_OIDC_PROVIDERS_KEYCLOAK_CLIENT_ID: "Sign in with keycloak"
+  SEMAPHORE_OIDC_PROVIDERS_KEYCLOAK_CLIENT_SECRET: "Sign in with keycloak"
+  SEMAPHORE_OIDC_PROVIDERS_KEYCLOAK_REDIRECT_URL: "Sign in with keycloak"
+  # SEMAPHORE_LDAP_HOST: dc01.local.example.com
+  # SEMAPHORE_LDAP_PORT: "636"
+  # SEMAPHORE_LDAP_NEEDTLS: "yes"
+  # SEMAPHORE_LDAP_DN_BIND: "uid=bind_user,cn=users,cn=accounts,dc=local,dc=shiftsystems,dc=net"
+  # SEMAPHORE_LDAP_PASSWORD: "ldap_bind_account_password"
+  # SEMAPHORE_LDAP_DN_SEARCH: "dc=local,dc=example,dc=com"
+  # SEMAPHORE_LDAP_SEARCH_FILTER: "(\u0026(uid=%s)(memberOf=cn=ipausers,cn=groups,cn=accounts,dc=local,dc=example,dc=com))"
+  TZ: UTC
+
+service:
+  type: ClusterIP
+  port: 3000
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
